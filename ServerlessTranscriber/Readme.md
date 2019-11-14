@@ -27,6 +27,10 @@ You can follow the guide described in this Medium article:
 
 * **Aziz Ketari** - *Transcriber Application* - [GCP-apps](https://github.com/aziz-ketari/google-cloud-apps)
 
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
 ## Acknowledgments
 
 * Hat's off to Joe-at-LA (https://github.com/Joe-at-LA) to whom I owe the inspiration. 
