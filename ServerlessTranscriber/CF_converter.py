@@ -14,23 +14,22 @@ dst_bucket = storage_client.get_bucket(DEST_BUCKET)
 def mp3_to_wav(gcs_filename, local_tmp_dir):
     """
     This function is a helper function that will convert the audio file to the 
-    encoded version as needed. Support mp3 files.
+    encoded version as needed. Supports mp3 files.
     Args:
         bucket: str - Name of the source bucket of audio files
         audio_filename: str - title of the audio blob 
     Returns:
         None; the output is written to stdout and Stackdriver Logging
     """
-    print(local_tmp_dir)
-    print('Encoding {} file into wav format'.format(gcs_filename))
+    print('Start encoding {} file into wav format'.format(gcs_filename))
     sound = AudioSegment.from_mp3(local_tmp_dir)
     return sound.export(local_tmp_dir, format="wav")
 
 
 
-def encode_audio_file(file,context):
+def convert_audio_file(file,context):
     """
-    This function will be triggered when an audio is uploaded to the
+    This function will be triggered when an audio file is uploaded to the
     GCS bucket of interest.
     Args:
         file (dict): Metadata of the changed file, provided by the triggering
@@ -41,21 +40,28 @@ def encode_audio_file(file,context):
     """
     bucket = file.get('bucket')
     name = file.get('name')
-    dst_gcs_uri = name.split('.')[0] + '.wav'
-    #data = file.get('data')
+    audio_format = name.split('.')[-1]
 
-    # Download the mp3 file to a local tmp directory
-    tmp_destination_uri = '/tmp/'+name
-    src_bucket = storage_client.get_bucket(bucket)
-    audio_blob = src_bucket.get_blob(name)
-    audio_blob.download_to_filename(tmp_destination_uri)
-    print('{} was successfully downloaded.'.format(name))
+    if audio_format == 'mp3':
+        # Convert mp3 to wav
+        dst_gcs_uri = name.split('.')[0] + '.wav'
 
-    # Call transcription helper function
-    mp3_to_wav(name, tmp_destination_uri)
-    print('File {} encoded.'.format(file['name']))
+        # Download the mp3 file to a local tmp directory
+        tmp_destination_uri = '/tmp/'+name
+        src_bucket = storage_client.get_bucket(bucket)
+        audio_blob = src_bucket.get_blob(name)
+        audio_blob.download_to_filename(tmp_destination_uri)
+        print('{} was successfully downloaded.'.format(name))
 
-    # Upload wav file from tmp directort to gcs
+
+        # Call converter helper function
+        mp3_to_wav(name, tmp_destination_uri)
+        print('Sucessful encoding of {}'.forma(file['name']))
+    else:
+        dst_gcs_uri = name
+
+
+    # Upload wav file to gcs
     encoded_blob = dst_bucket.blob(dst_gcs_uri)
     encoded_blob.upload_from_filename(filename=tmp_destination_uri)
     print('{} was successfully converted then uploaded \
