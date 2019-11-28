@@ -11,7 +11,7 @@ publisher_client = pubsub_v1.PublisherClient()
 
 # SET VARIABLES
 project_id = os.environ['GCP_PROJECT']
-RESULT_TOPIC = "audio-2-text-results"
+RESULT_TOPIC = "audio-to-text-results"
 
 # [START translate transcripte text]
 def translate_text(event, context):

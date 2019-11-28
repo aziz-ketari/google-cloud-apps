@@ -6,9 +6,8 @@ from google.cloud import storage
 storage_client = storage.Client()
 
 # SET VARIABLES
-RESULT_BUCKET = "sound_2_text_2_translate"
+RESULT_BUCKET = "translated_songs_2019"
 
-# [START save transcribed audio]
 def save_result(event, context):
     """
     This Cloud Function will be triggered when a message is published on the 
@@ -44,4 +43,3 @@ def save_result(event, context):
     blob.upload_from_string(text, theHeader)
 
     print('File saved.')
-# [END save transcribed audio]
