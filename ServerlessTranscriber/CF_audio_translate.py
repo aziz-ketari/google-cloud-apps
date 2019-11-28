@@ -1,4 +1,3 @@
-# [START functions_ocr_translate]
 import base64
 import json
 import os
@@ -13,7 +12,7 @@ publisher_client = pubsub_v1.PublisherClient()
 project_id = os.environ['GCP_PROJECT']
 RESULT_TOPIC = "audio-to-text-results"
 
-# [START translate transcripte text]
+
 def translate_text(event, context):
     """
     This Cloud Function will be triggered when a message is published on the 
@@ -49,5 +48,3 @@ def translate_text(event, context):
     topic_path = publisher_client.topic_path(project_id, topic_name)
     future = publisher_client.publish(topic_path, data=message_data)
     future.result()
-
-# [END functions_ocr_translate]
