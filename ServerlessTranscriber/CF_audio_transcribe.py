@@ -50,13 +50,13 @@ def transcribe_and_translate_audio(bucket, filename, sample_rate_hertz, audio_ch
         enable_separate_recognition_per_channel = False
 
     # The possible language of the supplied audio
-    language_code = "en"
+    language_code = "it"
 
     # 3 additional languages as possible alternative languages
     # of the supplied audio.
     alternative_language_codes_element = "es"
     alternative_language_codes_element_2 = "fr"
-    alternative_language_codes_element_3 = "it"
+    alternative_language_codes_element_3 = "en"
     alternative_language_codes = [
         alternative_language_codes_element,
         alternative_language_codes_element_2,
@@ -67,6 +67,8 @@ def transcribe_and_translate_audio(bucket, filename, sample_rate_hertz, audio_ch
     audio_file_fomat = filename.split('.')[-1]
 
     # Verify file's encoding
+    # Parameters for the config file can be found here:
+    # https://cloud.google.com/speech-to-text/docs/reference/rest/v1/RecognitionConfig
     if audio_file_fomat == 'flac':
         encoding = enums.RecognitionConfig.AudioEncoding.LINEAR16
         config = {

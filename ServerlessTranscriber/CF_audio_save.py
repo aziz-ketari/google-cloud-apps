@@ -6,7 +6,7 @@ from google.cloud import storage
 storage_client = storage.Client()
 
 # SET VARIABLES
-RESULT_BUCKET = "2019_songs_lyrics"
+RESULT_BUCKET = "songs_lyrics_2019"
 
 def save_result(event, context):
     """
